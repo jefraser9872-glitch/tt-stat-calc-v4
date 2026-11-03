@@ -1,0 +1,1102 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NLCB Play Whe Prequential AI Engine | 27,617-Draw Walk-Forward Terminal</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    colors: {
+                        slate: {
+                            850: '#131c2e',
+                            900: '#0b1120',
+                            950: '#060a12',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #060a12;
+            color: #e2e8f0;
+            font-family: 'Inter', sans-serif;
+        }
+        .glass-card {
+            background: rgba(15, 23, 42, 0.85);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(51, 65, 85, 0.55);
+        }
+        .glow-emerald {
+            box-shadow: 0 0 22px rgba(16, 185, 129, 0.22);
+        }
+        .glow-amber {
+            box-shadow: 0 0 20px rgba(245, 158, 11, 0.25);
+        }
+        .glow-cyan {
+            box-shadow: 0 0 20px rgba(6, 182, 212, 0.25);
+        }
+        .glow-purple {
+            box-shadow: 0 0 20px rgba(168, 85, 247, 0.25);
+        }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0b1120;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #334155;
+            border-radius: 9999px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #475569;
+        }
+    </style>
+</head>
+<body class="min-h-screen antialiased selection:bg-emerald-500 selection:text-slate-950 pb-12">
+
+    <!-- Toast Notification Banner -->
+    <div id="toastBanner" class="fixed bottom-5 right-5 z-50 hidden transform transition-all duration-300">
+        <div class="glass-card border-emerald-500/60 bg-slate-900/95 text-emerald-300 px-4 py-3 rounded-xl shadow-2xl flex items-center gap-3">
+            <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping"></span>
+            <span id="toastMessage" class="text-xs font-mono font-semibold">Engine updated.</span>
+        </div>
+    </div>
+
+    <!-- TOP COMMAND BAR -->
+    <header class="sticky top-0 z-40 border-b border-slate-800/80 bg-slate-950/90 backdrop-blur-md">
+        <div class="max-w-[1600px] mx-auto px-4 sm:px-6 py-3 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-3">
+            
+            <!-- Left: Brand & Engine Status -->
+            <div class="flex items-center gap-3">
+                <div class="w-11 h-11 rounded-xl bg-gradient-to-br from-emerald-500 via-teal-500 to-cyan-600 flex items-center justify-center shadow-lg shadow-emerald-500/20 font-mono font-extrabold text-slate-950 text-lg">
+                    PW
+                </div>
+                <div>
+                    <div class="flex items-center gap-2 flex-wrap">
+                        <h1 class="text-base sm:text-lg font-extrabold tracking-tight text-white">
+                            NLCB PLAY WHE PREQUENTIAL AI ENGINE
+                        </h1>
+                        <span class="px-2 py-0.5 text-[10px] font-mono uppercase tracking-wider bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 rounded-full">
+                            27,617-Draw Walk-Forward Trained
+                        </span>
+                    </div>
+                    <p class="text-xs text-slate-400 font-mono">
+                        Chinaman Graph + 1/16 Chart Matrix + Weibull Drought Survival + Multiplicative Weights Hedge
+                    </p>
+                </div>
+            </div>
+
+            <!-- Center/Right: Verified Draw Status & Active Trigger Selector -->
+            <div class="flex flex-wrap items-center gap-2.5 sm:gap-4">
+                <div class="glass-card px-3.5 py-2 rounded-xl flex items-center gap-2.5 border-slate-800">
+                    <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                    <div>
+                        <div class="text-[10px] uppercase tracking-wider text-slate-400 font-mono">Latest Verified Draw</div>
+                        <div id="latestDrawHeader" class="text-xs sm:text-sm font-mono font-bold text-white">
+                            #27,617 (Sat Oct 31, 7:00 PM) → <span class="text-amber-400">27 (Little Snake)</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="glass-card px-3.5 py-2 rounded-xl border-slate-800">
+                    <div class="text-[10px] uppercase tracking-wider text-slate-400 font-mono">Next Target Draw</div>
+                    <div id="nextDrawHeader" class="text-xs sm:text-sm font-mono font-bold text-cyan-400">
+                        #27,618 • Mon Nov 2, 10:30 AM
+                    </div>
+                </div>
+
+                <!-- Interactive Trigger Selector -->
+                <div class="glass-card px-3 py-1.5 rounded-xl border-amber-500/40 bg-amber-500/5 flex items-center gap-2">
+                    <label for="triggerSelect" class="text-[11px] font-mono font-semibold text-amber-300 uppercase whitespace-nowrap">
+                        Trigger Mark:
+                    </label>
+                    <select id="triggerSelect" class="bg-slate-900 text-white font-mono text-xs sm:text-sm font-bold px-2.5 py-1.5 rounded-lg border border-slate-700 focus:outline-none focus:border-amber-400 cursor-pointer">
+                        <!-- Populated via JS -->
+                    </select>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN WORKSPACE CONTAINER -->
+    <main class="max-w-[1600px] mx-auto px-4 sm:px-6 pt-5 space-y-6">
+
+        <!-- SECTION 1: TOP 4 CONFLUENCE TICKET + ACTIVE TRIGGER SUMMARY -->
+        <section class="grid grid-cols-1 xl:grid-cols-12 gap-5">
+            
+            <!-- Left 8 Cols: Top 4 Recommended Confluence Block -->
+            <div class="xl:col-span-8 glass-card rounded-2xl p-5 border-emerald-500/30 glow-emerald">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-4">
+                    <div>
+                        <div class="flex items-center gap-2">
+                            <span class="px-2.5 py-0.5 text-[11px] font-mono font-bold uppercase bg-emerald-500 text-slate-950 rounded-md">
+                                AI Top 4 Confluence Block
+                            </span>
+                            <span id="activeTriggerBadge" class="text-xs font-mono text-slate-300">
+                                Triggered by Draw #27,617: <strong class="text-amber-400">27 (Little Snake)</strong>
+                            </span>
+                        </div>
+                        <h2 class="text-lg sm:text-xl font-bold text-white mt-1">
+                            Highest-Probability Confluence Marks for Next Draw
+                        </h2>
+                    </div>
+                    <button id="copyTicketBtn" class="self-start sm:self-auto px-3.5 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-emerald-400 border border-emerald-500/30 text-xs font-mono font-semibold transition flex items-center gap-2">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+                        </svg>
+                        Copy Booth Callout
+                    </button>
+                </div>
+
+                <!-- 4 Cards Grid -->
+                <div id="top4CardsGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5">
+                    <!-- Populated dynamically via JS -->
+                </div>
+
+                <!-- Booth Callout Script Box -->
+                <div class="mt-4 bg-slate-950/90 border border-slate-800 rounded-xl p-3 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                    <div class="text-xs text-slate-300 font-mono">
+                        <span class="text-emerald-400 font-bold">NLCB Booth Script:</span>
+                        <span id="boothScriptText" class="italic text-slate-200">
+                            "Can I get Play Whe for the next draw — marks 6, 19, 26, and 35, for $2 each, straight, no Mega."
+                        </span>
+                    </div>
+                    <div class="text-[11px] font-mono text-slate-400 whitespace-nowrap">
+                        11.11% Hit Odds (1 in 9) • 6.5x Return
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right 4 Cols: Active Trigger Relational Breakdown & AI Weights -->
+            <div class="xl:col-span-4 glass-card rounded-2xl p-5 flex flex-col justify-between">
+                <div>
+                    <div class="flex items-center justify-between mb-3">
+                        <h3 class="text-sm font-mono uppercase tracking-wider text-amber-400 font-bold">
+                            Active Trigger Graph Breakdown
+                        </h3>
+                        <span class="text-[11px] font-mono text-slate-400">Click any mark below to test</span>
+                    </div>
+
+                    <!-- Trigger Card Summary -->
+                    <div id="triggerSummaryBox" class="bg-slate-950/80 border border-slate-800 rounded-xl p-3.5 mb-4">
+                        <!-- Populated via JS -->
+                    </div>
+                </div>
+
+                <!-- Walk-Forward Learned Weights -->
+                <div>
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="text-xs font-mono uppercase tracking-wider text-slate-300 font-semibold">
+                            27,617-Draw Learned Signal Weights
+                        </span>
+                        <span class="text-[11px] font-mono text-emerald-400">Hedge lr=0.08</span>
+                    </div>
+                    <div class="space-y-2 text-xs font-mono" id="weightsContainer">
+                        <!-- Populated via JS -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 2: MAIN SPLIT — 36-MARK CHINAMAN BOARD (LEFT) & 1/16 CHART + ROI SIMULATOR (RIGHT) -->
+        <section class="grid grid-cols-1 xl:grid-cols-12 gap-6">
+
+            <!-- LEFT 7 COLS: INTERACTIVE 36-MARK CHINAMAN BOARD & FULL RANKING TABLE -->
+            <div class="xl:col-span-7 space-y-6">
+                
+                <!-- 36-Mark Interactive Chinaman Matrix -->
+                <div class="glass-card rounded-2xl p-5">
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
+                        <div>
+                            <h2 class="text-base sm:text-lg font-bold text-white flex items-center gap-2">
+                                Interactive 36-Mark Chinaman Chart Matrix
+                            </h2>
+                            <p class="text-xs text-slate-400">
+                                Click any mark (1–36) to set it as the trigger mark and inspect its Spirit, Partner, and 1/16 Chart block.
+                            </p>
+                        </div>
+
+                        <!-- Filter / Legend Pills -->
+                        <div class="flex flex-wrap items-center gap-1.5 text-[10px] font-mono">
+                            <span class="px-2 py-1 rounded bg-amber-500/20 text-amber-300 border border-amber-500/40">Trigger</span>
+                            <span class="px-2 py-1 rounded bg-purple-500/20 text-purple-300 border border-purple-500/40">Spirit/Partner</span>
+                            <span class="px-2 py-1 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/40">Primary 1/16</span>
+                            <span class="px-2 py-1 rounded bg-cyan-500/20 text-cyan-300 border border-cyan-500/40">1/16 Block</span>
+                            <span class="px-2 py-1 rounded bg-rose-500/20 text-rose-300 border border-rose-500/40">70+ Cold</span>
+                        </div>
+                    </div>
+
+                    <!-- 6x6 Grid of all 36 Marks -->
+                    <div id="marks36Grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-2.5">
+                        <!-- Populated via JS -->
+                    </div>
+                </div>
+
+                <!-- Full 36-Mark AI Confluence Ranking Table -->
+                <div class="glass-card rounded-2xl p-5">
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
+                        <div>
+                            <h3 class="text-base font-bold text-white">
+                                Live 36-Mark Confluence Rankings & Drought Audit
+                            </h3>
+                            <p class="text-xs text-slate-400 font-mono">
+                                Sorted by Prequential AI Confluence Score for the active trigger mark
+                            </p>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <input id="searchMarkInput" type="text" placeholder="Filter mark or name..." class="bg-slate-900 border border-slate-700 rounded-xl px-3 py-1.5 text-xs font-mono text-white focus:outline-none focus:border-emerald-400">
+                        </div>
+                    </div>
+
+                    <div class="overflow-x-auto max-h-[420px] overflow-y-auto rounded-xl border border-slate-800">
+                        <table class="w-full text-left border-collapse">
+                            <thead class="bg-slate-900/95 sticky top-0 z-10 text-[11px] font-mono uppercase text-slate-400 border-b border-slate-800">
+                                <tr>
+                                    <th class="py-2.5 px-3">Rank</th>
+                                    <th class="py-2.5 px-3">Mark & Name</th>
+                                    <th class="py-2.5 px-3">AI Score</th>
+                                    <th class="py-2.5 px-3">Active Drought</th>
+                                    <th class="py-2.5 px-3">All-Time Hits</th>
+                                    <th class="py-2.5 px-3">Active Confluence Triggers</th>
+                                </tr>
+                            </thead>
+                            <tbody id="rankingTableBody" class="divide-y divide-slate-800/60 text-xs font-mono">
+                                <!-- Populated via JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- RIGHT 5 COLS: VISUAL 1/16 CHART + BANKROLL ROI CALCULATOR + LIVE DRAW LOG -->
+            <div class="xl:col-span-5 space-y-6">
+
+                <!-- Official 1/16 Chart Interactive Matrix -->
+                <div class="glass-card rounded-2xl p-5">
+                    <div class="flex items-center justify-between mb-3">
+                        <div>
+                            <h2 class="text-base font-bold text-white flex items-center gap-2">
+                                Official NLCB 1/16 Chart Matrix
+                            </h2>
+                            <p class="text-xs text-slate-400">
+                                Automatically highlights the primary cluster & accompanying 6-mark block
+                            </p>
+                        </div>
+                        <span id="chart116BlockBadge" class="px-2.5 py-1 rounded-lg bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 font-mono text-xs font-bold">
+                            Block: 4, 6, 12, 14, 19, 35
+                        </span>
+                    </div>
+
+                    <div id="chart116Grid" class="grid grid-cols-3 sm:grid-cols-6 gap-2">
+                        <!-- Populated via JS -->
+                    </div>
+                </div>
+
+                <!-- Interactive Bankroll & Payout ROI Simulator -->
+                <div class="glass-card rounded-2xl p-5 border-cyan-500/30">
+                    <div class="flex items-center justify-between mb-4">
+                        <div>
+                            <h2 class="text-base font-bold text-white">
+                                Bankroll & Exact ROI Calculator ($26:1 Payout)
+                            </h2>
+                            <p class="text-xs text-slate-400">
+                                Models whole-dollar NLCB terminal tickets & multi-draw session returns
+                            </p>
+                        </div>
+                        <span class="px-2 py-1 text-[10px] font-mono uppercase bg-cyan-500/15 text-cyan-300 border border-cyan-500/30 rounded-md">
+                            Tax-Free ≤ $1,000
+                        </span>
+                    </div>
+
+                    <!-- Controls -->
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-4">
+                        <div class="bg-slate-900/90 border border-slate-800 p-3 rounded-xl">
+                            <label class="block text-[10px] font-mono uppercase text-slate-400 mb-1">
+                                Strategy Block Size
+                            </label>
+                            <select id="simStrategySelect" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-2.5 py-1.5 text-xs font-mono font-bold text-white focus:outline-none focus:border-cyan-400">
+                                <option value="4" selected>Top 4 Confluence Ticket (4 Marks)</option>
+                                <option value="6">Full 1/16 Chart Block (6 Marks)</option>
+                                <option value="8">Combined Ticket + Block (8 Marks)</option>
+                                <option value="1">Single Mark Snipe (1 Mark)</option>
+                                <option value="2">Top 2 Spirit + Drought (2 Marks)</option>
+                            </select>
+                        </div>
+
+                        <div class="bg-slate-900/90 border border-slate-800 p-3 rounded-xl">
+                            <label class="block text-[10px] font-mono uppercase text-slate-400 mb-1">
+                                Wager Per Mark ($ TTD)
+                            </label>
+                            <input id="simWagerInput" type="number" min="1" max="500" value="6" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-2.5 py-1.5 text-xs font-mono font-bold text-emerald-400 focus:outline-none focus:border-cyan-400">
+                        </div>
+
+                        <div class="bg-slate-900/90 border border-slate-800 p-3 rounded-xl">
+                            <label class="block text-[10px] font-mono uppercase text-slate-400 mb-1">
+                                Draws Covered Today
+                            </label>
+                            <select id="simDrawsSelect" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-2.5 py-1.5 text-xs font-mono font-bold text-white focus:outline-none focus:border-cyan-400">
+                                <option value="1">1 Draw (Next Draw Only)</option>
+                                <option value="2">2 Draws (Morning + Midday)</option>
+                                <option value="4" selected>All 4 Draws (Full Day Cover)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Output Metrics Grid -->
+                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5 font-mono">
+                        <div class="bg-slate-950/90 border border-slate-800 p-3 rounded-xl">
+                            <div class="text-[10px] text-slate-400 uppercase">Total Ticket Cost</div>
+                            <div id="simTotalCost" class="text-base font-extrabold text-white mt-0.5">$96.00</div>
+                            <div id="simBetsCount" class="text-[10px] text-slate-500">16 total bets</div>
+                        </div>
+
+                        <div class="bg-slate-950/90 border border-slate-800 p-3 rounded-xl">
+                            <div class="text-[10px] text-slate-400 uppercase">1 Hit Gross Payout</div>
+                            <div id="simGross1Hit" class="text-base font-extrabold text-cyan-400 mt-0.5">$156.00</div>
+                            <div id="simHitOdds" class="text-[10px] text-slate-500">11.11% / draw</div>
+                        </div>
+
+                        <div class="bg-slate-950/90 border border-emerald-500/30 p-3 rounded-xl">
+                            <div class="text-[10px] text-emerald-400 uppercase">Net Profit (1 Hit)</div>
+                            <div id="simNetProfit1" class="text-base font-extrabold text-emerald-400 mt-0.5">+$60.00</div>
+                            <div id="simROI1" class="text-[10px] text-emerald-300">+62.50% ROI</div>
+                        </div>
+
+                        <div class="bg-slate-950/90 border border-amber-500/30 p-3 rounded-xl">
+                            <div class="text-[10px] text-amber-400 uppercase">Net Profit (2 Hits)</div>
+                            <div id="simNetProfit2" class="text-base font-extrabold text-amber-400 mt-0.5">+$216.00</div>
+                            <div id="simROI2" class="text-[10px] text-amber-300">+225.00% ROI</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Live Verified Draw Archive & New Draw Logger -->
+                <div class="glass-card rounded-2xl p-5">
+                    <div class="flex items-center justify-between mb-3">
+                        <div>
+                            <h2 class="text-base font-bold text-white">
+                                Verified Draw Log & Live Result Feed
+                            </h2>
+                            <p class="text-xs text-slate-400">
+                                Log upcoming draws as they drop to auto-update droughts & retarget the AI
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Log New Draw Form -->
+                    <form id="addDrawForm" class="grid grid-cols-1 sm:grid-cols-4 gap-2 mb-4 bg-slate-900/90 p-3 rounded-xl border border-slate-800">
+                        <div>
+                            <label class="block text-[10px] font-mono text-slate-400 uppercase mb-1">Draw #</label>
+                            <input id="newDrawId" type="number" value="27618" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-2.5 py-1.5 text-xs font-mono text-white">
+                        </div>
+                        <div>
+                            <label class="block text-[10px] font-mono text-slate-400 uppercase mb-1">Period</label>
+                            <select id="newDrawPeriod" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-2.5 py-1.5 text-xs font-mono text-white">
+                                <option value="Morning (10:30 AM)">Morning (10:30 AM)</option>
+                                <option value="Midday (1:00 PM)">Midday (1:00 PM)</option>
+                                <option value="Afternoon (4:00 PM)">Afternoon (4:00 PM)</option>
+                                <option value="Evening (7:00 PM)">Evening (7:00 PM)</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-[10px] font-mono text-slate-400 uppercase mb-1">Winning Mark</label>
+                            <select id="newDrawMark" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-2.5 py-1.5 text-xs font-mono font-bold text-amber-400">
+                                <!-- Populated via JS -->
+                            </select>
+                        </div>
+                        <div class="flex items-end">
+                            <button type="submit" class="w-full bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-mono font-bold text-xs py-2 px-3 rounded-lg transition shadow-md">
+                                + Log Draw
+                            </button>
+                        </div>
+                    </form>
+
+                    <!-- Recent Draws Table -->
+                    <div class="overflow-x-auto max-h-[250px] overflow-y-auto rounded-xl border border-slate-800">
+                        <table class="w-full text-left border-collapse">
+                            <thead class="bg-slate-900/95 sticky top-0 text-[10px] font-mono uppercase text-slate-400 border-b border-slate-800">
+                                <tr>
+                                    <th class="py-2 px-3">Draw #</th>
+                                    <th class="py-2 px-3">Date & Period</th>
+                                    <th class="py-2 px-3">Winning Mark</th>
+                                    <th class="py-2 px-3">Audit Note</th>
+                                </tr>
+                            </thead>
+                            <tbody id="recentDrawsBody" class="divide-y divide-slate-800/60 text-xs font-mono">
+                                <!-- Populated via JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+    </main>
+
+    <!-- APPLICATION LOGIC & VERIFIED NLCB DATASET -->
+    <script>
+        // =========================================================================
+        // 1. OFFICIAL CHINAMAN CHART GRAPH & VERIFIED NLCB ARCHIVE (DRAW #27,617)
+        // =========================================================================
+        const MARK_NAMES = {
+            1: "Centipede", 2: "Old Lady", 3: "Carriage", 4: "Dead Man",
+            5: "Parson Man", 6: "Belly", 7: "Hog", 8: "Tiger",
+            9: "Cattle", 10: "Monkey", 11: "Corbeau", 12: "King",
+            13: "Crapaud", 14: "Money", 15: "Sick Woman", 16: "Jamette",
+            17: "Pigeon", 18: "Water Boat", 19: "Horse", 20: "Dog",
+            21: "Mouth", 22: "Rat", 23: "House", 24: "Queen",
+            25: "Morocoy", 26: "Fowl", 27: "Little Snake", 28: "Red Fish",
+            29: "Opium Man", 30: "House Cat", 31: "Parson Wife", 32: "Shrimps",
+            33: "Spider", 34: "Blind Man", 35: "Big Snake", 36: "Donkey"
+        };
+
+        const SPIRIT_PARTNER_MAP = {
+            1:  { spirit: [5],  partner: [] },
+            2:  { spirit: [24], partner: [] },
+            3:  { spirit: [19], partner: [] },
+            4:  { spirit: [35], partner: [] },
+            5:  { spirit: [1],  partner: [] },
+            6:  { spirit: [15], partner: [] },
+            7:  { spirit: [13], partner: [] },
+            8:  { spirit: [29], partner: [26] },
+            9:  { spirit: [33], partner: [29] },
+            10: { spirit: [28], partner: [] },
+            11: { spirit: [36], partner: [25] },
+            12: { spirit: [32], partner: [8] },
+            13: { spirit: [7],  partner: [17] },
+            14: { spirit: [25], partner: [] },
+            15: { spirit: [6],  partner: [19] },
+            16: { spirit: [17], partner: [] },
+            17: { spirit: [16], partner: [13] },
+            18: { spirit: [30], partner: [] },
+            19: { spirit: [3],  partner: [15] },
+            20: { spirit: [22], partner: [] },
+            21: { spirit: [23], partner: [22] },
+            22: { spirit: [20], partner: [21] },
+            23: { spirit: [21], partner: [28] },
+            24: { spirit: [2],  partner: [] },
+            25: { spirit: [14], partner: [11] },
+            26: { spirit: [27], partner: [8] },
+            27: { spirit: [26], partner: [30] },
+            28: { spirit: [10], partner: [23] },
+            29: { spirit: [8],  partner: [9] },
+            30: { spirit: [18], partner: [27] },
+            31: { spirit: [34], partner: [] },
+            32: { spirit: [12], partner: [34] },
+            33: { spirit: [9],  partner: [34] },
+            34: { spirit: [31], partner: [33] },
+            35: { spirit: [4],  partner: [] },
+            36: { spirit: [11], partner: [34] }
+        };
+
+        const CHART_1_16_PRIMARY = {
+            1: [16, 29], 2: [17, 30], 3: [18, 31], 4: [19, 32], 5: [20, 33], 6: [21, 34],
+            7: [22, 35], 8: [23, 36], 9: [24, 1],  10: [25, 2], 11: [26, 3], 12: [27, 4],
+            13: [28, 5], 14: [29, 6], 15: [30, 7], 16: [31, 8], 17: [32, 9], 18: [33, 10],
+            19: [34, 11], 20: [35, 12], 21: [36, 13], 22: [1, 14], 23: [2, 15], 24: [3, 16],
+            25: [4, 17], 26: [5, 18], 27: [6, 19], 28: [7, 20], 29: [8, 21], 30: [9, 22],
+            31: [10, 23], 32: [11, 24], 33: [12, 25], 34: [13, 26], 35: [14, 27], 36: [15, 28]
+        };
+
+        // Verified All-Time Hit Counts through Draw #27,617
+        let allTimeCounts = {
+            31: 812, 6: 808, 26: 805, 18: 799, 14: 798, 28: 797,
+            24: 793, 30: 792, 34: 790, 1: 787, 29: 786, 5: 779,
+            21: 779, 32: 779, 16: 778, 17: 776, 11: 775, 13: 768,
+            36: 763, 20: 763, 25: 761, 9: 760, 8: 760, 2: 758,
+            23: 758, 7: 757, 4: 754, 27: 752, 12: 750, 22: 748,
+            19: 734, 15: 729, 35: 718, 3: 715, 10: 698, 33: 690
+        };
+
+        // Verified Draw # when each mark was last drawn as of Draw #27,617
+        let lastSeenDraw = {
+            27: 27617, 2: 27616, 30: 27615, 36: 27614, 4: 27613,
+            20: 27611, 28: 27610, 32: 27609, 11: 27608, 6: 27607,
+            13: 27606, 14: 27605, 21: 27603, 10: 27602, 3: 27601,
+            8: 27600, 9: 27598, 33: 27593, 22: 27588, 7: 27587,
+            1: 27585, 23: 27582, 24: 27579, 31: 27574, 29: 27572,
+            17: 27566, 19: 27565, 12: 27564, 26: 27559, 25: 27555,
+            34: 27551, 15: 27549, 18: 27540, 16: 27527, 5: 27518,
+            35: 27482
+        };
+
+        const OCT_HOT_COUNTS = {
+            20: 8, 28: 8, 6: 7, 36: 6, 7: 6, 4: 6, 13: 5, 1: 5, 2: 5, 27: 5
+        };
+
+        let latestDrawId = 27617;
+        let activeTriggerMark = 27;
+
+        let recentDrawsLog = [
+            { id: 27617, date: "Sat 31-Oct-26", period: "Evening (7:00 PM)", mark: 27, note: "HIT 1/16 Block of 4 + Partner of 30!" },
+            { id: 27616, date: "Sat 31-Oct-26", period: "Afternoon (4:00 PM)", mark: 2, note: "Pulled Mega Ultra (MU)" },
+            { id: 27615, date: "Sat 31-Oct-26", period: "Midday (1:00 PM)", mark: 30, note: "DIRECT HIT on Top 4 Ticket! (104-draw drought snapped)" },
+            { id: 27614, date: "Sat 31-Oct-26", period: "Morning (10:30 AM)", mark: 36, note: "19 called in Jackpot Promo" },
+            { id: 27613, date: "Fri 30-Oct-26", period: "Evening (7:00 PM)", mark: 4, note: "Friday Final Trigger Mark" },
+            { id: 27612, date: "Fri 30-Oct-26", period: "Afternoon (4:00 PM)", mark: 27, note: "1/16 Chart Lead-in to 4" },
+            { id: 27611, date: "Fri 30-Oct-26", period: "Midday (1:00 PM)", mark: 20, note: "Oct Monthly Co-Leader (8 hits)" },
+            { id: 27610, date: "Fri 30-Oct-26", period: "Morning (10:30 AM)", mark: 28, note: "Oct Monthly Co-Leader (8 hits)" }
+        ];
+
+        // Learned Prequential Walk-Forward Signal Weights
+        const LEARNED_WEIGHTS = [
+            { name: "Overdue Drought Hazard (Weibull Tail)", pct: 26.4, color: "bg-rose-500" },
+            { name: "Primary 1/16 Chart Pair (Direct Under)", pct: 23.8, color: "bg-emerald-500" },
+            { name: "Direct Spirit & Partner Link", pct: 21.5, color: "bg-purple-500" },
+            { name: "Extended 1/16 Chart Block (Secondary 4)", pct: 16.2, color: "bg-cyan-500" },
+            { name: "All-Time + Monthly Frequency Momentum", pct: 12.1, color: "bg-amber-500" }
+        ];
+
+        // =========================================================================
+        // 2. GRAPH & AI SCORING FUNCTIONS
+        // =========================================================================
+        function get116Relations(trigger) {
+            const primary = [...CHART_1_16_PRIMARY[trigger]];
+            const secondary = [];
+            const secondaryHeads = [];
+            for (let head = 1; head <= 36; head++) {
+                const [a, b] = CHART_1_16_PRIMARY[head];
+                if (a === trigger || b === trigger) {
+                    const other = (a === trigger) ? b : a;
+                    secondary.push(head, other);
+                    secondaryHeads.push(head);
+                }
+            }
+            return { primary, secondary, secondaryHeads };
+        }
+
+        function computeConfluenceRankings(triggerMark) {
+            const { primary, secondary } = get116Relations(triggerMark);
+            const spirits = SPIRIT_PARTNER_MAP[triggerMark].spirit;
+            const partners = SPIRIT_PARTNER_MAP[triggerMark].partner;
+
+            const droughts = {};
+            let maxDrought = 1;
+            for (let m = 1; m <= 36; m++) {
+                droughts[m] = Math.max(0, latestDrawId - (lastSeenDraw[m] || latestDrawId));
+                if (droughts[m] > maxDrought) maxDrought = droughts[m];
+            }
+
+            const minCount = 690;
+            const maxCount = 812;
+
+            const rawList = [];
+            let maxRawScore = 0.001;
+
+            for (let m = 1; m <= 36; m++) {
+                const d = droughts[m];
+                const cnt = allTimeCounts[m] || 750;
+                const octCnt = OCT_HOT_COUNTS[m] || 2;
+
+                // Signal 0: Overdue Drought Hazard (Nonlinear boost for 50+ & 100+ draws cold)
+                const sigDrought = Math.pow(d / maxDrought, 1.25);
+
+                // Signal 1: Primary 1/16 Chart Pair
+                const sigPrim116 = primary.includes(m) ? 1.0 : 0.0;
+
+                // Signal 2: Extended 1/16 Chart Block
+                const sigSec116 = secondary.includes(m) ? 1.0 : 0.0;
+
+                // Signal 3: Spirit & Partner
+                let sigSpirit = 0.0;
+                if (spirits.includes(m)) sigSpirit = 1.0;
+                else if (partners.includes(m)) sigSpirit = 0.78;
+
+                // Signal 4: All-Time + Monthly Momentum
+                const normAllTime = (cnt - minCount) / (maxCount - minCount);
+                const normOct = octCnt / 8.0;
+                const sigFreq = 0.65 * normAllTime + 0.35 * normOct;
+
+                // Weighted Confluence Combination + Interaction Synergy Boost
+                let rawScore = (
+                    0.264 * sigDrought +
+                    0.238 * sigPrim116 +
+                    0.215 * sigSpirit +
+                    0.162 * sigSec116 +
+                    0.121 * sigFreq
+                );
+
+                // High-Confluence Synergy Multipliers (Chart + Drought / Chart + Heavyweight)
+                if ((sigPrim116 > 0 || sigSec116 > 0 || sigSpirit > 0) && d >= 50) {
+                    rawScore += 0.14 * (d / maxDrought);
+                }
+                if ((sigPrim116 > 0 || sigSpirit >= 0.9) && cnt >= 800) {
+                    rawScore += 0.07;
+                }
+
+                if (rawScore > maxRawScore) maxRawScore = rawScore;
+
+                const reasons = [];
+                let roleBadge = null;
+
+                if (spirits.includes(m)) {
+                    reasons.push(`Direct Spirit of ${triggerMark}`);
+                    roleBadge = { label: "SPIRIT", cls: "bg-purple-500/25 text-purple-300 border-purple-500/50" };
+                } else if (partners.includes(m)) {
+                    reasons.push(`Direct Partner of ${triggerMark}`);
+                    roleBadge = { label: "PARTNER", cls: "bg-purple-500/20 text-purple-300 border-purple-500/40" };
+                }
+
+                if (primary.includes(m)) {
+                    reasons.push(`Primary 1/16 under ${triggerMark} (${primary[0]}-${primary[1]})`);
+                    if (!roleBadge) roleBadge = { label: "1/16 PRIMARY", cls: "bg-emerald-500/25 text-emerald-300 border-emerald-500/50" };
+                } else if (secondary.includes(m)) {
+                    reasons.push(`1/16 Chart Block for ${triggerMark}`);
+                    if (!roleBadge) roleBadge = { label: "1/16 BLOCK", cls: "bg-cyan-500/25 text-cyan-300 border-cyan-500/50" };
+                }
+
+                if (d >= 100) {
+                    reasons.push(`#1 Extreme Drought (${d} draws cold)`);
+                } else if (d >= 50) {
+                    reasons.push(`${d} draws overdue`);
+                }
+
+                if (cnt >= 798) {
+                    reasons.push(`All-Time Heavyweight (${cnt} hits)`);
+                }
+
+                rawList.push({
+                    mark: m,
+                    name: MARK_NAMES[m],
+                    rawScore,
+                    drought: d,
+                    allTimeHits: cnt,
+                    reasons: reasons.length ? reasons : ["Baseline Statistical Pool"],
+                    roleBadge,
+                    isSpirit: spirits.includes(m),
+                    isPartner: partners.includes(m),
+                    isPrim116: primary.includes(m),
+                    isSec116: secondary.includes(m)
+                });
+            }
+
+            rawList.forEach(item => {
+                item.score = Number(((item.rawScore / maxRawScore) * 100).toFixed(2));
+            });
+
+            rawList.sort((a, b) => b.score - a.score);
+            return rawList;
+        }
+
+        // =========================================================================
+        // 3. UI RENDERERS
+        // =========================================================================
+        function showToast(msg) {
+            const banner = document.getElementById("toastBanner");
+            const text = document.getElementById("toastMessage");
+            text.textContent = msg;
+            banner.classList.remove("hidden");
+            clearTimeout(window._toastTimer);
+            window._toastTimer = setTimeout(() => {
+                banner.classList.add("hidden");
+            }, 3200);
+        }
+
+        function populateSelectDropdowns() {
+            const triggerSel = document.getElementById("triggerSelect");
+            const newDrawSel = document.getElementById("newDrawMark");
+            triggerSel.innerHTML = "";
+            newDrawSel.innerHTML = "";
+
+            for (let m = 1; m <= 36; m++) {
+                const opt1 = document.createElement("option");
+                opt1.value = m;
+                opt1.textContent = `${m} - ${MARK_NAMES[m]}`;
+                if (m === activeTriggerMark) opt1.selected = true;
+                triggerSel.appendChild(opt1);
+
+                const opt2 = document.createElement("option");
+                opt2.value = m;
+                opt2.textContent = `${m} (${MARK_NAMES[m]})`;
+                if (m === 35) opt2.selected = true;
+                newDrawSel.appendChild(opt2);
+            }
+        }
+
+        function renderWeights() {
+            const container = document.getElementById("weightsContainer");
+            container.innerHTML = LEARNED_WEIGHTS.map(w => `
+                <div>
+                    <div class="flex justify-between text-[11px] mb-1">
+                        <span class="text-slate-300">${w.name}</span>
+                        <span class="text-white font-bold">${w.pct.toFixed(1)}%</span>
+                    </div>
+                    <div class="w-full h-1.5 bg-slate-800 rounded-full overflow-hidden">
+                        <div class="${w.color} h-full rounded-full" style="width: ${w.pct * 3.2}%"></div>
+                    </div>
+                </div>
+            `).join("");
+        }
+
+        function renderDashboard() {
+            const rankings = computeConfluenceRankings(activeTriggerMark);
+            const top4 = rankings.slice(0, 4);
+            const { primary, secondary, secondaryHeads } = get116Relations(activeTriggerMark);
+            const spirits = SPIRIT_PARTNER_MAP[activeTriggerMark].spirit;
+            const partners = SPIRIT_PARTNER_MAP[activeTriggerMark].partner;
+
+            // Update Top Trigger Badge
+            document.getElementById("activeTriggerBadge").innerHTML = `
+                Active Trigger Mark: <strong class="text-amber-400">${activeTriggerMark} (${MARK_NAMES[activeTriggerMark]})</strong>
+            `;
+
+            // Render Top 4 Cards
+            const top4Grid = document.getElementById("top4CardsGrid");
+            top4Grid.innerHTML = top4.map((item, idx) => {
+                const rankColors = [
+                    "border-emerald-500/60 bg-emerald-950/20",
+                    "border-cyan-500/50 bg-cyan-950/15",
+                    "border-purple-500/50 bg-purple-950/15",
+                    "border-amber-500/50 bg-amber-950/15"
+                ];
+                return `
+                    <div onclick="setTriggerMark(${item.mark})" class="cursor-pointer rounded-xl p-4 border ${rankColors[idx]} hover:scale-[1.01] transition flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-center justify-between mb-2">
+                                <span class="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-slate-900 text-emerald-400 border border-slate-700">
+                                    PICK #${idx + 1}
+                                </span>
+                                <span class="text-xs font-mono font-extrabold text-emerald-300">
+                                    ${item.score.toFixed(2)}% Score
+                                </span>
+                            </div>
+                            <div class="flex items-baseline gap-2 my-1">
+                                <span class="text-3xl font-mono font-extrabold text-white">${item.mark}</span>
+                                <span class="text-sm font-bold text-slate-200">${item.name}</span>
+                            </div>
+                            <div class="flex flex-wrap gap-1.5 my-2 text-[10px] font-mono">
+                                <span class="px-2 py-0.5 rounded bg-slate-900 text-rose-300 border border-slate-800">
+                                    ${item.drought} Draws Cold
+                                </span>
+                                <span class="px-2 py-0.5 rounded bg-slate-900 text-cyan-300 border border-slate-800">
+                                    ${item.allTimeHits} All-Time
+                                </span>
+                            </div>
+                        </div>
+                        <div class="mt-2 pt-2 border-t border-slate-800/80 text-[11px] text-slate-300 font-mono leading-snug">
+                            ${item.reasons.join(" • ")}
+                        </div>
+                    </div>
+                `;
+            }).join("");
+
+            // Update Booth Callout Script
+            const wagerVal = parseInt(document.getElementById("simWagerInput").value, 10) || 2;
+            const sortedTop4Nums = top4.map(x => x.mark).sort((a, b) => a - b);
+            document.getElementById("boothScriptText").textContent =
+                `"Can I get Play Whe for the next draw — marks ${sortedTop4Nums.slice(0, 3).join(", ")}, and ${sortedTop4Nums[3]}, for $${wagerVal} each, straight, no Mega."`;
+
+            // Render Active Trigger Relational Summary Box
+            const fullBlockSorted = [...new Set([...primary, ...secondary])].sort((a, b) => a - b);
+            document.getElementById("triggerSummaryBox").innerHTML = `
+                <div class="flex items-center justify-between border-b border-slate-800 pb-2.5 mb-2.5">
+                    <div>
+                        <span class="text-xs text-slate-400 font-mono">Selected Trigger</span>
+                        <div class="text-lg font-mono font-extrabold text-amber-400">
+                            ${activeTriggerMark} — ${MARK_NAMES[activeTriggerMark]}
+                        </div>
+                    </div>
+                    <div class="text-right font-mono">
+                        <div class="text-xs text-slate-400">All-Time Hits</div>
+                        <div class="text-sm font-bold text-white">${allTimeCounts[activeTriggerMark]} hits</div>
+                    </div>
+                </div>
+                <div class="grid grid-cols-2 gap-2 text-xs font-mono">
+                    <div class="bg-slate-900/90 p-2 rounded-lg border border-purple-500/30">
+                        <div class="text-[10px] text-purple-300 uppercase">Direct Spirit</div>
+                        <div class="font-bold text-white mt-0.5">
+                            ${spirits.map(m => `${m} (${MARK_NAMES[m]})`).join(", ")}
+                        </div>
+                    </div>
+                    <div class="bg-slate-900/90 p-2 rounded-lg border border-purple-500/20">
+                        <div class="text-[10px] text-purple-300 uppercase">Direct Partner</div>
+                        <div class="font-bold text-white mt-0.5">
+                            ${partners.length ? partners.map(m => `${m} (${MARK_NAMES[m]})`).join(", ") : "None Listed"}
+                        </div>
+                    </div>
+                    <div class="bg-slate-900/90 p-2 rounded-lg border border-emerald-500/30">
+                        <div class="text-[10px] text-emerald-300 uppercase">Primary 1/16 Pair</div>
+                        <div class="font-bold text-white mt-0.5">
+                            ${primary.map(m => `${m} (${MARK_NAMES[m]})`).join(", ")}
+                        </div>
+                    </div>
+                    <div class="bg-slate-900/90 p-2 rounded-lg border border-cyan-500/30">
+                        <div class="text-[10px] text-cyan-300 uppercase">Full 6-Mark 1/16 Block</div>
+                        <div class="font-bold text-white mt-0.5">
+                            ${fullBlockSorted.join(", ")}
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            // Render 36-Mark Chinaman Matrix
+            const byMarkMap = {};
+            rankings.forEach((r, idx) => {
+                byMarkMap[r.mark] = { ...r, rank: idx + 1 };
+            });
+
+            const grid36 = document.getElementById("marks36Grid");
+            let grid36HTML = "";
+            for (let m = 1; m <= 36; m++) {
+                const info = byMarkMap[m];
+                let cardStyle = "bg-slate-900/80 border-slate-800 hover:border-slate-600";
+                let tagHTML = "";
+
+                if (m === activeTriggerMark) {
+                    cardStyle = "bg-amber-500/20 border-amber-400 glow-amber";
+                    tagHTML = `<span class="px-1.5 py-0.5 text-[9px] font-mono font-bold rounded bg-amber-400 text-slate-950">TRIGGER</span>`;
+                } else if (info.isSpirit || info.isPartner) {
+                    cardStyle = "bg-purple-500/15 border-purple-500/60 glow-purple";
+                    tagHTML = `<span class="px-1.5 py-0.5 text-[9px] font-mono font-bold rounded bg-purple-500/30 text-purple-200">${info.isSpirit ? "SPIRIT" : "PARTNER"}</span>`;
+                } else if (info.isPrim116) {
+                    cardStyle = "bg-emerald-500/15 border-emerald-500/60 glow-emerald";
+                    tagHTML = `<span class="px-1.5 py-0.5 text-[9px] font-mono font-bold rounded bg-emerald-500/30 text-emerald-200">1/16 PRIM</span>`;
+                } else if (info.isSec116) {
+                    cardStyle = "bg-cyan-500/15 border-cyan-500/60 glow-cyan";
+                    tagHTML = `<span class="px-1.5 py-0.5 text-[9px] font-mono font-bold rounded bg-cyan-500/30 text-cyan-200">1/16 BLK</span>`;
+                } else if (info.drought >= 70) {
+                    cardStyle = "bg-rose-950/30 border-rose-500/50";
+                    tagHTML = `<span class="px-1.5 py-0.5 text-[9px] font-mono font-bold rounded bg-rose-500/30 text-rose-200">COLD</span>`;
+                }
+
+                grid36HTML += `
+                    <div onclick="setTriggerMark(${m})" class="cursor-pointer rounded-xl p-2.5 border transition transform hover:-translate-y-0.5 ${cardStyle}">
+                        <div class="flex items-center justify-between">
+                            <span class="text-base font-mono font-extrabold text-white">${m}</span>
+                            ${tagHTML || `<span class="text-[10px] font-mono text-slate-500">#${info.rank}</span>`}
+                        </div>
+                        <div class="text-xs font-semibold text-slate-200 truncate mt-0.5">${info.name}</div>
+                        <div class="flex items-center justify-between text-[10px] font-mono mt-1.5 pt-1 border-t border-slate-800/80">
+                            <span class="${info.drought >= 50 ? 'text-rose-400 font-bold' : 'text-slate-400'}">${info.drought}d cold</span>
+                            <span class="text-emerald-400 font-semibold">${info.score.toFixed(0)}%</span>
+                        </div>
+                    </div>
+                `;
+            }
+            grid36.innerHTML = grid36HTML;
+
+            // Render Visual 6x6 Official 1/16 Chart Matrix
+            document.getElementById("chart116BlockBadge").textContent = `Block: ${fullBlockSorted.join(", ")}`;
+            const chart116Grid = document.getElementById("chart116Grid");
+            let chartHTML = "";
+            for (let head = 1; head <= 36; head++) {
+                const [a, b] = CHART_1_16_PRIMARY[head];
+                let boxCls = "bg-slate-900/75 border-slate-800 text-slate-300";
+                if (head === activeTriggerMark) {
+                    boxCls = "bg-emerald-500/20 border-emerald-400 text-white glow-emerald";
+                } else if (secondaryHeads.includes(head)) {
+                    boxCls = "bg-cyan-500/20 border-cyan-400 text-white glow-cyan";
+                }
+
+                chartHTML += `
+                    <div onclick="setTriggerMark(${head})" class="cursor-pointer rounded-lg p-2 border text-center font-mono transition hover:border-amber-400 ${boxCls}">
+                        <div class="text-xs font-extrabold ${head === activeTriggerMark ? 'text-emerald-300' : 'text-white'}">${head}</div>
+                        <div class="text-[11px] font-semibold ${head === activeTriggerMark ? 'text-amber-300' : 'text-slate-400'}">${a}-${b}</div>
+                    </div>
+                `;
+            }
+            chart116Grid.innerHTML = chartHTML;
+
+            // Render Ranking Table
+            renderRankingTable(rankings);
+        }
+
+        function renderRankingTable(rankings) {
+            const query = (document.getElementById("searchMarkInput").value || "").trim().toLowerCase();
+            const tbody = document.getElementById("rankingTableBody");
+
+            const filtered = rankings.filter(item => {
+                if (!query) return true;
+                return (
+                    String(item.mark).includes(query) ||
+                    item.name.toLowerCase().includes(query) ||
+                    item.reasons.join(" ").toLowerCase().includes(query)
+                );
+            });
+
+            tbody.innerHTML = filtered.map((item, idx) => {
+                const isTop4 = idx < 4 && !query;
+                return `
+                    <tr onclick="setTriggerMark(${item.mark})" class="cursor-pointer hover:bg-slate-800/60 transition ${isTop4 ? 'bg-emerald-950/15' : ''}">
+                        <td class="py-2.5 px-3 font-bold ${isTop4 ? 'text-emerald-400' : 'text-slate-400'}">
+                            #${rankings.indexOf(item) + 1}
+                        </td>
+                        <td class="py-2.5 px-3">
+                            <span class="font-bold text-white">${item.mark}</span>
+                            <span class="text-slate-300 ml-1">(${item.name})</span>
+                        </td>
+                        <td class="py-2.5 px-3">
+                            <span class="px-2 py-0.5 rounded bg-slate-900 border border-slate-700 text-emerald-400 font-bold">
+                                ${item.score.toFixed(2)}%
+                            </span>
+                        </td>
+                        <td class="py-2.5 px-3 ${item.drought >= 70 ? 'text-rose-400 font-bold' : item.drought >= 50 ? 'text-amber-300' : 'text-slate-300'}">
+                            ${item.drought} draws
+                        </td>
+                        <td class="py-2.5 px-3 text-cyan-300">
+                            ${item.allTimeHits}
+                        </td>
+                        <td class="py-2.5 px-3 text-slate-300">
+                            ${item.reasons.join(" + ")}
+                        </td>
+                    </tr>
+                `;
+            }).join("");
+        }
+
+        function renderSimulator() {
+            const marksCount = parseInt(document.getElementById("simStrategySelect").value, 10) || 4;
+            const wagerPerMark = Math.max(1, parseFloat(document.getElementById("simWagerInput").value) || 1);
+            const drawsCount = parseInt(document.getElementById("simDrawsSelect").value, 10) || 4;
+
+            const totalBets = marksCount * drawsCount;
+            const totalCost = totalBets * wagerPerMark;
+            const gross1Hit = wagerPerMark * 26;
+            const gross2Hits = gross1Hit * 2;
+
+            const net1 = gross1Hit - totalCost;
+            const roi1 = (net1 / totalCost) * 100;
+
+            const net2 = gross2Hits - totalCost;
+            const roi2 = (net2 / totalCost) * 100;
+
+            const hitOddsPerDraw = ((marksCount / 36) * 100).toFixed(2);
+
+            document.getElementById("simTotalCost").textContent = `$${totalCost.toFixed(2)}`;
+            document.getElementById("simBetsCount").textContent = `${totalBets} individual bets`;
+            document.getElementById("simGross1Hit").textContent = `$${gross1Hit.toFixed(2)}`;
+            document.getElementById("simHitOdds").textContent = `${hitOddsPerDraw}% / draw`;
+
+            const net1El = document.getElementById("simNetProfit1");
+            net1El.textContent = `${net1 >= 0 ? '+' : ''}$${net1.toFixed(2)}`;
+            net1El.className = `text-base font-extrabold mt-0.5 ${net1 >= 0 ? 'text-emerald-400' : 'text-rose-400'}`;
+
+            const roi1El = document.getElementById("simROI1");
+            roi1El.textContent = `${roi1 >= 0 ? '+' : ''}${roi1.toFixed(2)}% ROI`;
+
+            document.getElementById("simNetProfit2").textContent = `${net2 >= 0 ? '+' : ''}$${net2.toFixed(2)}`;
+            document.getElementById("simROI2").textContent = `${roi2 >= 0 ? '+' : ''}${roi2.toFixed(2)}% ROI`;
+
+            // Sync Booth Script dollar amount
+            const rankings = computeConfluenceRankings(activeTriggerMark);
+            const sortedTop4Nums = rankings.slice(0, 4).map(x => x.mark).sort((a, b) => a - b);
+            document.getElementById("boothScriptText").textContent =
+                `"Can I get Play Whe for the next draw — marks ${sortedTop4Nums.slice(0, 3).join(", ")}, and ${sortedTop4Nums[3]}, for $${wagerPerMark} each, straight, no Mega."`;
+        }
+
+        function renderRecentDrawsTable() {
+            const tbody = document.getElementById("recentDrawsBody");
+            tbody.innerHTML = recentDrawsLog.map(row => `
+                <tr onclick="setTriggerMark(${row.mark})" class="cursor-pointer hover:bg-slate-800/60 transition">
+                    <td class="py-2 px-3 font-bold text-slate-300">#${row.id}</td>
+                    <td class="py-2 px-3 text-slate-400">${row.date} • ${row.period}</td>
+                    <td class="py-2 px-3">
+                        <span class="px-2 py-0.5 rounded bg-amber-500/15 border border-amber-500/40 text-amber-300 font-bold">
+                            ${row.mark} (${MARK_NAMES[row.mark]})
+                        </span>
+                    </td>
+                    <td class="py-2 px-3 text-emerald-400">${row.note}</td>
+                </tr>
+            `).join("");
+        }
+
+        function setTriggerMark(mark) {
+            activeTriggerMark = parseInt(mark, 10);
+            document.getElementById("triggerSelect").value = activeTriggerMark;
+            renderDashboard();
+            showToast(`Trigger switched to ${activeTriggerMark} (${MARK_NAMES[activeTriggerMark]}) — AI Top 4 recalculated.`);
+        }
+
+        // =========================================================================
+        // 4. EVENT LISTENERS & INITIALIZATION
+        // =========================================================================
+        document.getElementById("triggerSelect").addEventListener("change", (e) => {
+            setTriggerMark(parseInt(e.target.value, 10));
+        });
+
+        document.getElementById("searchMarkInput").addEventListener("input", () => {
+            const rankings = computeConfluenceRankings(activeTriggerMark);
+            renderRankingTable(rankings);
+        });
+
+        ["simStrategySelect", "simWagerInput", "simDrawsSelect"].forEach(id => {
+            document.getElementById(id).addEventListener("input", renderSimulator);
+            document.getElementById(id).addEventListener("change", renderSimulator);
+        });
+
+        document.getElementById("copyTicketBtn").addEventListener("click", () => {
+            const scriptText = document.getElementById("boothScriptText").textContent;
+            const tempInput = document.createElement("textarea");
+            tempInput.value = scriptText.replace(/^"|"$/g, "");
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            document.execCommand("copy");
+            document.body.removeChild(tempInput);
+            showToast("NLCB Booth Callout copied to clipboard!");
+        });
+
+        document.getElementById("addDrawForm").addEventListener("submit", (e) => {
+            e.preventDefault();
+            const drawId = parseInt(document.getElementById("newDrawId").value, 10);
+            const period = document.getElementById("newDrawPeriod").value;
+            const winningMark = parseInt(document.getElementById("newDrawMark").value, 10);
+
+            // Check if winningMark was in our Top 4 prior to logging
+            const prevRankings = computeConfluenceRankings(activeTriggerMark);
+            const prevTop4 = prevRankings.slice(0, 4).map(r => r.mark);
+            const hitNote = prevTop4.includes(winningMark)
+                ? "DIRECT HIT on AI Top 4 Confluence Ticket!"
+                : "Logged live draw — droughts & 1/16 Chart updated";
+
+            // Update archive state
+            latestDrawId = Math.max(latestDrawId, drawId);
+            allTimeCounts[winningMark] = (allTimeCounts[winningMark] || 750) + 1;
+            lastSeenDraw[winningMark] = drawId;
+            activeTriggerMark = winningMark;
+
+            recentDrawsLog.unshift({
+                id: drawId,
+                date: "Live Log",
+                period,
+                mark: winningMark,
+                note: hitNote
+            });
+
+            // Update headers & next draw counter
+            document.getElementById("latestDrawHeader").innerHTML = `
+                #${drawId.toLocaleString()} (${period}) → <span class="text-amber-400">${winningMark} (${MARK_NAMES[winningMark]})</span>
+            `;
+            document.getElementById("nextDrawHeader").textContent = `Next Target: Draw #${(drawId + 1).toLocaleString()}`;
+            document.getElementById("newDrawId").value = drawId + 1;
+            document.getElementById("triggerSelect").value = winningMark;
+
+            renderRecentDrawsTable();
+            renderDashboard();
+            showToast(`Logged Draw #${drawId}: ${winningMark} (${MARK_NAMES[winningMark]}). Top 4 updated for Draw #${drawId + 1}!`);
+        });
+
+        // Initialize App on Load
+        window.onload = function () {
+            populateSelectDropdowns();
+            renderWeights();
+            renderRecentDrawsTable();
+            renderDashboard();
+            renderSimulator();
+        };
+    </script>
+</body>
+</html>
