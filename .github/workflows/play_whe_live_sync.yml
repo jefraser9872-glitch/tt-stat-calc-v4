@@ -5,15 +5,14 @@ on:
     branches: [ main ]
   workflow_dispatch:
   schedule:
-    # Runs every 10 mins during NLCB post-draw release windows (UTC times for AST +4)
-    # 10:30 AM AST Draw Window (10:35 AM - 11:15 AM AST -> 14:35 - 15:15 UTC)
+    # 10:30 AM AST Draw Window
     - cron: '35,45,55 14 * * 1-6'
     - cron: '5,15 15 * * 1-6'
-    # 1:00 PM AST Draw Window (1:05 PM - 1:45 PM AST -> 17:05 - 17:45 UTC)
+    # 1:00 PM AST Draw Window
     - cron: '5,15,25,35,45 17 * * 1-6'
-    # 4:00 PM AST Draw Window (4:05 PM - 4:45 PM AST -> 20:05 - 20:45 UTC)
+    # 4:00 PM AST Draw Window
     - cron: '5,15,25,35,45 20 * * 1-6'
-    # 7:00 PM AST Draw Window (7:05 PM - 7:45 PM AST -> 23:05 - 23:45 UTC)
+    # 7:00 PM AST Draw Window
     - cron: '5,15,25,35,45 23 * * 1-6'
     # Hourly heartbeat backup
     - cron: '0 * * * *'
@@ -53,4 +52,3 @@ jobs:
           git config --global user.email "bot@playwhe-v4.local"
           git add -A
           git diff --quiet && git diff --staged --quiet || (git commit -m "Auto-sync NLCB draws & refresh V4 dashboard" && git pull --rebase origin main && git push origin main)
- 
