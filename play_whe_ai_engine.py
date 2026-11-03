@@ -1211,7 +1211,9 @@ def generate_and_launch_ui(
     latest_id, latest_date, latest_per, latest_mk = intraday["latest_draw"]
     next_id: int = int(intraday["next_draw_id"])
     next_per_label: str = str(intraday["next_period_label"])
-    now_str: str = datetime.now().strftime("%I:%M:%S %p AST (%d-%b-%Y)")
+    from datetime import datetime, timezone, timedelta
+AST = timezone(timedelta(hours=-4))
+now_str = datetime.now(AST).strftime("%I:%M:%S %p AST (%d-%b-%Y)")
 
     sniper_bullets_html: str = "".join(
         f"<li style='margin-bottom:8px;color:#e2e8f0;'>{reason}</li>"
